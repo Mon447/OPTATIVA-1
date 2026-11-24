@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PANEL ALMACENISTA</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #5a1d3c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .layout-container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #f4f5f7;
+            border-radius: 15px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            min-height: 650px;
+        }
+
+        /* BARRA LATERAL IZQUIERDA */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #7d2250 0%, #4a1430 100%);
+            display: flex;
+            flex-direction: column;
+            padding-top: 25px;
+            padding-bottom: 20px;
+        }
+
+        /* Encabezado del Menú */
+        .sidebar-header h2 {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Contenedor del Menú */
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Estilo base para cada opción (Texto plano sin botón) */
+        .menu-item {
+            display: block;
+            padding: 12px 25px;
+            color: #d1a3be;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-decoration: none !important;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .menu-item:hover {
+            color: #ffffff;
+        }
+
+        /* CÁPSULA BLANCA ACTIVA */
+        .menu-item.active {
+            background-color: #f4f5f7;
+            color: #7d2250;
+            font-weight: 800;
+            border-top-left-radius: 30px;
+            border-bottom-left-radius: 30px;
+            margin-left: 15px;
+            padding-left: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Opción de Cerrar Sesión al final */
+        .menu-item.logout {
+            margin-top: auto;
+            color: #ff8080;
+        }
+
+        .menu-item.logout:hover {
+            color: #ff4d4d;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* BARRA SUPERIOR DE ENCABEZADO */
+        .top-header {
+            background-color: #7d2250;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .top-header h1 {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        /* CONTENIDO DE LOS FORMULARIOS */
+        .main-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            overflow-y: auto;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            background-color: #7d2250;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #7d2250;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .input-group input, .input-group select {
+            background-color: #f9f9fb;
+            border: 1px solid #e1e1e8;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 13px;
+            outline: none;
+            color: #333333;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            border-color: #a8326a;
+        }
+
+        .btn-action {
+            background-color: #a8326a;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 4px 10px rgba(168, 50, 106, 0.3);
+            align-self: flex-start;
+        }
+
+        .btn-action:hover {
+            background-color: #7d2250;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="layout-container">
+        <!-- BARRA LATERAL IZQUIERDA UNIFICADA -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>JIMENA HERNANDEZ</h2>
+            </div>
+            
+            <div class="sidebar-menu">
+                <a href="{{ url_for('administrador') }}" class="menu-item">
+                    PANEL ADMINISTRADOR
+                </a>
+
+                <!-- Opción Activa en esta vista -->
+                <a href="{{ url_for('almacenista') }}" class="menu-item active">
+                    PANEL ALMACEN - INVENTARIO
+                </a>
+
+                <a href="{{ url_for('vendedor') }}" class="menu-item">
+                    PANEL VENTAS
+                </a>
+                
+                <a href="{{ url_for('historial_ventas_route') }}" class="menu-item">
+                    HISTORIAL DE VENTAS
+                </a>
+
+                <!-- Cerrar Sesión -->
+                <a href="{{ url_for('login') }}" class="menu-item logout">
+                    CERRAR SESION
+                </a>
+            </div>
+        </div>
+
+        <!-- SECCIÓN PRINCIPAL -->
+        <div class="main-wrapper">
+            <!-- HEADER SUPERIOR -->
+            <div class="top-header">
+                <h1>PANEL ALMACENISTA</h1>
+            </div>
+
+            <!-- CONTENIDO DE MOVIMIENTOS DE ALMACÉN -->
+            <div class="main-content">
+                <div class="card">
+                    <div class="card-header">PANEL ALMACENISTA (ENTRADAS, SALIDAS Y AJUSTES)</div>
+                    <form method="POST" autocomplete="off">
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>ID PRODUCTO</label>
+                                <input type="number" name="id_producto" placeholder="ID PRODUCTO" required>
+                            </div>
+                            <div class="input-group">
+                                <label>TIPO DE MOVIMIENTO</label>
+                                <select name="tipo_movimiento" required>
+                                    <option value="ENTRADA">ENTRADA</option>
+                                    <option value="SALIDA">SALIDA</option>
+                                    <option value="AJUSTE">AJUSTE</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>CANTIDAD</label>
+                                <input type="number" name="cantidad" placeholder="CANTIDAD" required>
+                            </div>
+                            <div class="input-group">
+                                <label>MOTIVO O COMENTARIO</label>
+                                <input type="text" name="motivo" placeholder="MOTIVO O COMENTARIO" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-action">REGISTRAR MOVIMIENTO</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
